@@ -7,12 +7,17 @@
   -->
 
 
-<ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="?colorControlHighlight">
-    <item>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
         <shape android:shape="rectangle">
+            <solid android:color="@color/ripple_material_light" />
             <corners android:radius="@dimen/urlbar_bg_corner_radius" />
-            <solid android:color="@color/colorUrlBarBackground" />
         </shape>
     </item>
-</ripple>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorUrlBarBackground" />
+            <corners android:radius="@dimen/urlbar_bg_corner_radius" />
+        </shape>
+    </item>
+</selector>

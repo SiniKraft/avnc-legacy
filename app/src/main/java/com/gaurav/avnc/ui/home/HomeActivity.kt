@@ -8,7 +8,6 @@
 
 package com.gaurav.avnc.ui.home
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -17,6 +16,7 @@ import android.util.Log
 import android.view.Window
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -126,7 +126,7 @@ class HomeActivity : AppCompatActivity() {
      * Launches VNC Url activity
      */
     private fun showUrlActivity() {
-        val anim = ActivityOptions.makeSceneTransitionAnimation(this, binding.urlbar, "urlbar")
+        val anim = ActivityOptionsCompat.makeSceneTransitionAnimation(this, binding.urlbar, "urlbar")
         startActivity(Intent(this, UrlBarActivity::class.java), anim.toBundle())
     }
 

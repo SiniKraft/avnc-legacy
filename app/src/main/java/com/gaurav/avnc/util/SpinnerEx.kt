@@ -9,9 +9,11 @@
 package com.gaurav.avnc.util
 
 import android.content.Context
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.os.Build
 import androidx.appcompat.widget.AppCompatSpinner
 import com.google.android.material.elevation.ElevationOverlayProvider
 
@@ -44,6 +46,10 @@ class SpinnerEx(context: Context, attrs: AttributeSet? = null) : AppCompatSpinne
         if (background is GradientDrawable)
             background.setColor(overlay)
         else
-            background.setTint(overlay)
+            // Workaround for pre-Lollipop devices
+            if (Build.VERSION.SDK_INT < 21)
+                background.mutate().colorFilter = PorterDuffColorFilter(overlay, android.graphics.PorterDuff.Mode.SRC_IN)
+            else
+                background.setTint(overlay)
     }
 }

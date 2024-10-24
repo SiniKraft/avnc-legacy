@@ -13,6 +13,7 @@ import android.content.Context
 import android.os.SystemClock
 import android.util.AttributeSet
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.Gravity
@@ -434,18 +435,18 @@ object VirtualKeyViewFactory {
 
     private fun createSimple(context: Context, key: VirtualKey): View {
         return if (key.icon != null)
-            ImageButton(context, null, 0, selectStyle(key))
+            ImageButton(ContextThemeWrapper(context, selectStyle(key)), null, 0)
                     .apply {
                         setImageDrawable(ContextCompat.getDrawable(context, key.icon))
                         contentDescription = getDescription(key)
                     }
         else
-            Button(context, null, 0, selectStyle(key))
+            Button(ContextThemeWrapper(context, selectStyle(key)), null, 0)
                     .apply { text = getLabel(key) }
     }
 
     private fun createToggle(context: Context, key: VirtualKey): View {
-        val view = ToggleButton(context, null, 0, selectStyle(key))
+        val view = ToggleButton(ContextThemeWrapper(context, selectStyle(key)), null, 0)
         view.isClickable = true
 
         if (key.icon != null) {

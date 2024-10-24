@@ -8,6 +8,7 @@
 
 
 ### Features
+- Supports Android 4.4 and above
 - Material Design (with Dark theme)
 - Configurable gestures
 - Tight encoding

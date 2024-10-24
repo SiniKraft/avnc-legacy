@@ -8,6 +8,7 @@
 
 package com.gaurav.avnc.viewmodel.service
 
+import android.os.Build
 import android.system.ErrnoException
 import android.system.OsConstants
 import android.util.Base64
@@ -216,15 +217,31 @@ class SshTunnel(private val viewModel: VncViewModel) {
             cause = cause.cause
         }
 
-        errors.find { it is ErrnoException }?.let {
-            val msg = when ((it as ErrnoException).errno) {
-                OsConstants.ECONNREFUSED -> "SSH server is not running, or port is incorrect"
-                OsConstants.ECONNABORTED -> "SSH connection aborted"
-                OsConstants.ECONNRESET -> "SSH connection closed abruptly by remote host"
-                else -> "SSH: " + it.message?.substringAfter('(')?.substringBefore(')')
+        if (Build.VERSION.SDK_INT < 21)
+            errors.find { it.javaClass.name == "libcore.io.ErrnoException" }?.let {
+                val errnoField = it.javaClass.getDeclaredField("errno")
+                errnoField.isAccessible = true
+                val errno = errnoField.getInt(it)
+
+                val msg = when (errno) {
+                    111 -> "SSH server is not running, or port is incorrect" // ECONNREFUSED
+                    103 -> "SSH connection aborted" // ECONNABORTED
+                    104 -> "SSH connection closed abruptly by remote host" // ECONNRESET
+                    else -> "SSH: " + it.message?.substringAfter('(')?.substringBefore(')')
+                }
+                return SshTunnelException(msg, e)
             }
-            return SshTunnelException(msg, e)
-        }
+        else
+            errors.find { it is ErrnoException }?.let {
+                val msg = when ((it as ErrnoException).errno) {
+                    OsConstants.ECONNREFUSED -> "SSH server is not running, or port is incorrect"
+                    OsConstants.ECONNABORTED -> "SSH connection aborted"
+                    OsConstants.ECONNRESET -> "SSH connection closed abruptly by remote host"
+                    else -> "SSH: " + it.message?.substringAfter('(')?.substringBefore(')') + it.errno
+                }
+                return SshTunnelException(msg, e)
+            }
+
 
         return e
     }

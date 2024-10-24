@@ -10,6 +10,7 @@ package com.gaurav.avnc.ui.prefs
 
 import android.animation.LayoutTransition
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -241,7 +242,7 @@ class VirtualKeysEditor : Fragment() {
         popup.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.bg_round_rect))
         popup.isOutsideTouchable = true
         popup.isFocusable = true
-        popup.elevation = 30f
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) popup.elevation = 30f
         popup.showAsDropDown(binding.addKeyBtn)
     }
 }

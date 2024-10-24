@@ -8,7 +8,6 @@
 
 package com.gaurav.avnc.ui.vnc
 
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.core.view.isVisible
@@ -64,12 +63,11 @@ class ViewerHelp {
     private fun initAnimatedDrawable(hostView: ImageView) {
         // Need to use compat library fot API 21 support
         val animatedDrawable = hostView.drawable as? AnimatedVectorDrawableCompat
-                               ?: hostView.drawable as AnimatedVectorDrawable
         AnimatedVectorDrawableCompat.registerAnimationCallback(animatedDrawable, object : Animatable2Compat.AnimationCallback() {
             override fun onAnimationEnd(drawable: Drawable?) {
-                hostView.postDelayed({ if (hostView.isAttachedToWindow) animatedDrawable.start() }, 200)
+                hostView.postDelayed({ if (hostView.isAttachedToWindow) animatedDrawable?.start() }, 200)
             }
         })
-        animatedDrawable.start()
+        animatedDrawable?.start()
     }
 }
