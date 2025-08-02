@@ -10,7 +10,7 @@ android {
     namespace 'com.gaurav.avnc'
 
     compileSdk 34
-    ndkVersion "25.2.9519653"
+    ndkVersion "23.2.8568313"
 
     defaultConfig {
         applicationId "com.gaurav.avnc"
