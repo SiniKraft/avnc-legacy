@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "com.gaurav.avnc"
-        minSdk 19
+        minSdk 17
         targetSdk 34
         versionCode 39
         versionName "2.6.3"
